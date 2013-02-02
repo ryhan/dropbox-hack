@@ -187,7 +187,9 @@ class Board(object):
       print "There are no blocks left in the preview list! You can't look that far ahead."
       return None
     return Board(new_bitmap, self.preview[0], self.preview[1:])
-    
+
+  # Returns a new board showing what would happen if the current block was placed.
+  # Helpful for testing out a series of options.
   def preview_place(self):
     clone = copy.copy(self)
     return clone.place()
