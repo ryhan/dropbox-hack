@@ -201,12 +201,12 @@ class Board(object):
   def apply_moves(self, move_list):
     valid = True
     for move in move_list:
-      if (move == "left"): valid &= self.checked_left()
-      elif (move == "right"): valid &= self.checked_right()
-      elif (move == "up"): valid &= self.checked_up()
-      elif (move == "down"): valid &= self.checked_down()
-      elif (move == "rotate"): valid &= self.checked_rotate()
-      elif (move == "unrotate"): valid &= self.checked_unrotate()
+      if (move == "left"): valid &= self.block.checked_left(self)
+      elif (move == "right"): valid &= self.block.checked_right(self)
+      elif (move == "up"): valid &= self.block.checked_up(self)
+      elif (move == "down"): valid &= self.block.checked_down(self)
+      elif (move == "rotate"): valid &= self.block.checked_rotate(self)
+      elif (move == "unrotate"): valid &= self.block.checked_unrotate(self)
 
     if (valid == True): return self.place()
     else: return False
@@ -263,47 +263,47 @@ class Board(object):
     new_bitmap = [row for row in bitmap if not all(row)]
     return [cols*[0] for i in range(rows - len(new_bitmap))] + new_bitmap
 
-  # Return the best board state from the given list of boards
-  def best_score_board(boards_list):
-      score_list = {}
-      for board_index in range(len(board_list)):    
-          board = boards_list[board_index]
-          if (not(board == False)):       
-              this_board_score = board_score(board)
-              score_list[board_index] = this_board_score
-      # sort the score list (descending)
-      sorted_scores = sorted(score_list.items(), key=lambda x: x[1], reverse=True)
-      return sorted_scores[0][0]
-      
+# Return the best board state from the given list of boards
+def best_score_board(boards_list):
+    score_list = {}
+    for board_index in range(len(board_list)):    
+        board = boards_list[board_index]
+        if (not(board == False)):       
+            this_board_score = board_score(board)
+            score_list[board_index] = this_board_score
+    # sort the score list (descending)
+    sorted_scores = sorted(score_list.items(), key=lambda x: x[1], reverse=True)
+    return sorted_scores[0][0]
+    
 
-  # Score the board state given 
-  def board_score(board):
-    rows_full = num_rows_full(board)
-    holes = num_holes(board)
-    return rows_full*1000 + holes*(-1) 
+# Score the board state given 
+def board_score(board):
+  rows_full = num_rows_full(board)
+  holes = num_holes(board)
+  return rows_full*1000 + holes*(-1) 
 
 
-  # Check if any row is full
-  def num_rows_full(board):
-    (rows, cols) = (len(board), len(board[0]))
-    rows_full = 0
-    for row in bitmap:
-        if all(row):
-            rows_full += 1
-    return rows_full
+# Check if any row is full
+def num_rows_full(board):
+  (rows, cols) = (len(board), len(board[0]))
+  rows_full = 0
+  for row in bitmap:
+      if all(row):
+          rows_full += 1
+  return rows_full
 
-  # Return the number of holes in the board
-  def num_holes(board):
-    holes = 0
-    (rows, cols) = (len(board), len(board[0]))
-    for row in board:
-         # check if its a row of zeroes, if so, then ignore
-         row_flip = [not i for i in row]
-         if (not(all(row_flip))):
-            for col in range(cols):
-               if (not row[col]):
-                   holes += 1
-    return holes
+# Return the number of holes in the board
+def num_holes(board):
+  holes = 0
+  (rows, cols) = (len(board), len(board[0]))
+  for row in board:
+       # check if its a row of zeroes, if so, then ignore
+       row_flip = [not i for i in row]
+       if (not(all(row_flip))):
+          for col in range(cols):
+             if (not row[col]):
+                 holes += 1
+  return holes
 
 if __name__ == '__main__':
   if len(sys.argv) == 3:
