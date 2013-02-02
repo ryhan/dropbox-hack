@@ -195,24 +195,29 @@ class Board(object):
     return clone.place()
 
   # Given a list of strings representing moves, 
+  # Returns a board showing the result after applying those moves and placing,
+  # but returns False if the set of moves is invalid.
+  # Example move_list: ["left", "left", "rotate"]
+  def apply_moves(self, move_list):
+    valid = True
+    for move in move_list:
+      if (move == "left"): valid &= self.checked_left()
+      elif (move == "right"): valid &= self.checked_right()
+      elif (move == "up"): valid &= self.checked_up()
+      elif (move == "down"): valid &= self.checked_down()
+      elif (move == "rotate"): valid &= self.checked_rotate()
+      elif (move == "unrotate"): valid &= self.checked_unrotate()
+
+    if (valid == True): return self.place()
+    else: return False
+
+  # Given a list of strings representing moves, 
   # Returns a board showing what would happen after those moves and placing,
   # but returns False if the set of moves is invalid.
   # Example move_list: ["left", "left", "rotate"]
   def try_move(self, move_list):
     test_piece = copy.copy(self)
-    valid = True
-
-    # Iterate through the set of moves
-    for move in move_list:
-      if (move == "left"): valid &= test_piece.checked_left()
-      elif (move == "right"): valid &= test_piece.checked_right()
-      elif (move == "up"): valid &= test_piece.checked_up()
-      elif (move == "down"): valid &= test_piece.checked_down()
-      elif (move == "rotate"): valid &= test_piece.checked_rotate()
-      elif (move == "unrotate"): valid &= test_piece.checked_unrotate()
-
-    if (valid == True): return test_piece.place()
-    else: return False
+    return test_piece.apply_moves(move_list)
 
   # Given a list of lists of strings representing moves,
   # Returns a list of boards showing what would happen after those moves and placing.
