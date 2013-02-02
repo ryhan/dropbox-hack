@@ -223,6 +223,34 @@ class Board(object):
       boards.append(self.try_move(move_list))
     return boards
 
+  # Generates a list of lists of move operations.
+  # Example: [["left"], ["right"], ["right right"]]
+  def gen_moves(self):
+    left_num = self.block.j
+    right_num = self.cols - left_num # self.cols = 12
+    rotate_num = 4 # rotations should be 0, 1, 2, or 3
+
+    # Begin the set of moves with placing at the current location
+    moves = [ [ ] ]
+
+    for rotate_count in range(rotate_num):
+      for left in range(left_num):
+        move_list = [ ]
+        for i in range(left):
+          move_list.append("left")
+        for i in range(rotate_count):
+          move_list.append("rotate")
+        moves.append(move_list)
+      for right in range(right_num):
+        move_list = [ ]
+        for i in range(right):
+          move_list.append("right")
+        for i in range(rotate_count):
+          move_list.append("rotate")
+        moves.append(move_list)
+
+    return moves
+
   # A helper method used to remove any full rows from a bitmap. Returns the new bitmap.
   @staticmethod
   def remove_rows(bitmap):
