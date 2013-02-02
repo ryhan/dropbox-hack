@@ -231,7 +231,7 @@ class Board(object):
   # Generates a list of lists of move operations.
   # Example: [["left"], ["right"], ["right right"]]
   def gen_moves(self):
-    left_num = self.block.j
+    left_num = self.block.center.j
     right_num = self.cols - left_num # self.cols = 12
     rotate_num = 4 # rotations should be 0, 1, 2, or 3
 
