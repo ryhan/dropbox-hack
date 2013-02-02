@@ -275,6 +275,17 @@ if __name__ == '__main__':
     # current block
     block = board.block
 
+    # naive AI that tests a bunch of possible move combinations
+    # and returns the best one it can find.
+    move_options = board.gen_moves()
+    boards = board.try_moves(move_options)
+    best_move_list = move_options[best_score_board(boards)]
+
+    for move in best_move_list:
+      print move_option
+    sys.stdout.flush()
+
+    """
     # very simple AI that moves the current block as far left as possible
     moves = []                  # list of moves to make
     while board.check(block):   # while the block in in a legal position
@@ -285,7 +296,7 @@ if __name__ == '__main__':
     for move in moves:          # print our moves
       print move
     sys.stdout.flush()          # flush stdout
-
+    """
 
     # this will do the same thing, but with different helper methods
     #while block.checked_left(board):
