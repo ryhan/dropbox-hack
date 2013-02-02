@@ -190,7 +190,7 @@ class Board(object):
 
   # Returns a new board showing what would happen if the current block was placed.
   # Helpful for testing out a series of options.
-  def preview_place(self):
+  def try_place(self):
     clone = copy.copy(self)
     return clone.place()
 
