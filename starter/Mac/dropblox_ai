@@ -306,6 +306,11 @@ def num_holes(board):
                  holes += 1
   return holes
 
+def step(board):
+  move_options = board.gen_moves()
+  boards = board.try_moves(move_options)
+  return (move_options, boards)
+
 if __name__ == '__main__':
   if len(sys.argv) == 3:
     # This AI executable will be called with two arguments: a JSON blob of the
@@ -320,8 +325,30 @@ if __name__ == '__main__':
 
     # naive AI that tests a bunch of possible move combinations
     # and returns the best one it can find.
-    move_options = board.gen_moves()
-    boards = board.try_moves(move_options)
+
+    depth = 2
+    (moves, boards) = step(board)
+    last_boards = boards
+    last_moves = moves
+    for d in range(depth):
+      new_moves = [ ]
+      new_boards = [ ]
+      for i in range(len(last_boards)):
+        cur_moves = last_moves[i]
+        cur_board = last_boards[i]
+        if (cur_board != False):
+          (tmp_moves, tmp_boards) = step(cur_board)
+          new_boards+= tmp_boards
+          for j in range(len(tmp_moves)):
+            new_moves.append(cur_moves)
+      last_moves = new_moves
+      last_boards = new_boards
+
+    boards = last_boards
+    move_options = last_moves
+
+    # move_options = board.gen_moves()
+    #boards = board.try_moves(move_options)
     best_move_list = move_options[best_score_board(boards)]
 
     for move in best_move_list:
