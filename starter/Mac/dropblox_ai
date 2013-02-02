@@ -118,11 +118,12 @@ class Block(object):
 class Board(object):
   rows = 33
   cols = 12
-
   def __init__(self, bitmap, block, preview):
     self.bitmap = bitmap
     self.block = block
     self.preview = preview
+    self.rows = 33 
+    self.cols = 12 
 
   def __repr__(self):
     return str(self)
@@ -266,7 +267,7 @@ class Board(object):
 # Return the best board state from the given list of boards
 def best_score_board(boards_list):
     score_list = {}
-    for board_index in range(len(board_list)):    
+    for board_index in range(len(boards_list)):    
         board = boards_list[board_index]
         if (not(board == False)):       
             this_board_score = board_score(board)
@@ -285,9 +286,9 @@ def board_score(board):
 
 # Check if any row is full
 def num_rows_full(board):
-  (rows, cols) = (len(board), len(board[0]))
+  (rows, cols) = (board.rows, board.cols)
   rows_full = 0
-  for row in bitmap:
+  for row in board.bitmap:
       if all(row):
           rows_full += 1
   return rows_full
@@ -295,8 +296,8 @@ def num_rows_full(board):
 # Return the number of holes in the board
 def num_holes(board):
   holes = 0
-  (rows, cols) = (len(board), len(board[0]))
-  for row in board:
+  (rows, cols) = (board.rows, board.cols)
+  for row in board.bitmap:
        # check if its a row of zeroes, if so, then ignore
        row_flip = [not i for i in row]
        if (not(all(row_flip))):
@@ -324,7 +325,7 @@ if __name__ == '__main__':
     best_move_list = move_options[best_score_board(boards)]
 
     for move in best_move_list:
-      print move_option
+      print move
     sys.stdout.flush()
 
     """
