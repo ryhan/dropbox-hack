@@ -6,6 +6,7 @@
 import json
 import sys
 import time
+import copy
 
 class InvalidMoveError(ValueError):
   pass
@@ -186,6 +187,10 @@ class Board(object):
       print "There are no blocks left in the preview list! You can't look that far ahead."
       return None
     return Board(new_bitmap, self.preview[0], self.preview[1:])
+    
+  def preview_place(self):
+    clone = copy.copy(self)
+    return clone.place()
 
   # A helper method used to remove any full rows from a bitmap. Returns the new bitmap.
   @staticmethod
