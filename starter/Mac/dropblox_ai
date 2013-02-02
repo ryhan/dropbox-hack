@@ -194,6 +194,35 @@ class Board(object):
     clone = copy.copy(self)
     return clone.place()
 
+  # Given a list of strings representing moves, 
+  # Returns a board showing what would happen after those moves and placing,
+  # but returns False if the set of moves is invalid.
+  # Example move_list: ["left", "left", "rotate"]
+  def try_move(self, move_list):
+    test_piece = copy.copy(self)
+    valid = True
+
+    # Iterate through the set of moves
+    for move in move_list:
+      if (move == "left"): valid &= test_piece.checked_left()
+      elif (move == "right"): valid &= test_piece.checked_right()
+      elif (move == "up"): valid &= test_piece.checked_up()
+      elif (move == "down"): valid &= test_piece.checked_down()
+      elif (move == "rotate"): valid &= test_piece.checked_rotate()
+      elif (move == "unrotate"): valid &= test_piece.checked_unrotate()
+
+    if (valid == True): return test_piece.place()
+    else: return False
+
+  # Given a list of lists of strings representing moves,
+  # Returns a list of boards showing what would happen after those moves and placing.
+  # Example moves: [ ["left"], ["left", "rotate"] ]
+  def try_moves(self, moves):
+    boards = [ ]
+    for move_list in moves:
+      boards.append(self.try_move(move_list))
+    return boards
+
   # A helper method used to remove any full rows from a bitmap. Returns the new bitmap.
   @staticmethod
   def remove_rows(bitmap):
