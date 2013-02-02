@@ -306,6 +306,14 @@ def num_holes(board):
                  holes += 1
   return holes
 
+def get_height(board):
+  height = 0
+  for row in reversed(board.bitmap):
+    row_flip = [not i for i in row]
+    if (not(all(row_flip))):
+      height+=1
+  return height
+
 def step(board):
   move_options = board.gen_moves()
   boards = board.try_moves(move_options)
