@@ -233,7 +233,9 @@ class Board(object):
   # Example: [["left"], ["right"], ["right right"]]
   def gen_moves(self):
     left_num = self.block.center.j
+    left_num = 12
     right_num = self.cols - left_num # self.cols = 12
+    right_num = 12
     rotate_num = 4 # rotations should be 0, 1, 2, or 3
 
     # Begin the set of moves with placing at the current location
