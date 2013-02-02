@@ -268,7 +268,7 @@ class Board(object):
       score_list = {}
       for board_index in range(len(board_list)):    
           board = boards_list[board_index]
-          if (!(board == False)):       
+          if (not(board == False)):       
               this_board_score = board_score(board)
               score_list[board_index] = this_board_score
       # sort the score list (descending)
